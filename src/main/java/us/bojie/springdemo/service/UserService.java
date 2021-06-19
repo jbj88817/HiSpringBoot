@@ -1,0 +1,18 @@
+package us.bojie.springdemo.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import us.bojie.springdemo.mapper.UserMapper;
+import us.bojie.springdemo.util.DateUtil;
+
+@Repository
+public class UserService {
+    @Autowired
+    private UserMapper userMapper;
+
+    public void addUser(String userName, String password, String imoocId, String orderId) {
+
+        userMapper.addUser(userName, password, imoocId, orderId, DateUtil.currentDate());
+    }
+}
