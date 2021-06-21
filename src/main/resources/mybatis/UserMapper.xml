@@ -11,4 +11,10 @@
             , user_name=
         VALUES (user_name);
     </insert>
+    <select id="findUser" resultType="us.bojie.springdemo.entity.UserEntity">
+        SELECT *
+        FROM t_user
+        WHERE user_name = #{userName}
+
+    </select>
 </mapper>
