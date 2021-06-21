@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import us.bojie.springdemo.config.NeedLogin;
 import us.bojie.springdemo.entity.ResponseEntity;
 import us.bojie.springdemo.entity.UserEntity;
 import us.bojie.springdemo.service.UserService;
@@ -70,5 +72,14 @@ public class UserController {
         System.out.println("userName" + userName);
         userService.addUser(userName, bCryptPasswordEncoder.encode(password), imoocId, orderId);
         return ResponseEntity.successMessage("registration success.");
+    }
+
+    @NeedLogin
+    @ApiOperation(value = "登出")
+    @RequestMapping(value = "/logout")
+    public ResponseEntity logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        UserRedisUtil.removeUser(redisTemplate, session);
+        return ResponseEntity.successMessage("logout success.");
     }
 }
