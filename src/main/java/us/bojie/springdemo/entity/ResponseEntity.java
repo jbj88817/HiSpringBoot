@@ -1,10 +1,13 @@
 package us.bojie.springdemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import us.bojie.springdemo.util.ResponseCode;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseEntity {
     private int code;
     private String message;

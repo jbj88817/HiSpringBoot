@@ -1,6 +1,7 @@
 package us.bojie.springdemo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ import us.bojie.springdemo.entity.ResponseEntity;
 import us.bojie.springdemo.entity.UserEntity;
 import us.bojie.springdemo.service.UserService;
 import us.bojie.springdemo.util.ResponseCode;
+import us.bojie.springdemo.util.UserRedisUtil;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -29,6 +31,9 @@ public class UserController {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @ApiOperation(value = "登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -52,7 +57,8 @@ public class UserController {
         if ("1".equals(userEntity.forbid)) {
             return ResponseEntity.of(ResponseCode.RC_USER_FORBID);
         }
-        return ResponseEntity.success(userEntity).setMessage("login success");
+        UserRedisUtil.addUser(redisTemplate, request.getSession(), userEntity);
+        return ResponseEntity.success(UserRedisUtil.getKey(request.getSession())).setMessage("login success.");
     }
 
     @ApiOperation(value = "注册")
