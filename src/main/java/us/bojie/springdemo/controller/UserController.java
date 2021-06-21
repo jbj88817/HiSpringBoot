@@ -82,4 +82,14 @@ public class UserController {
         UserRedisUtil.removeUser(redisTemplate, session);
         return ResponseEntity.successMessage("logout success.");
     }
+
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @ApiOperation(value = "获取用户列表")
+    public ResponseEntity getUserList(@RequestParam(value = "pageIndex", defaultValue = "1") @ApiParam("起始页码从1开始") int pageIndex
+    ) {
+//        PageHelper.startPage(pageIndex, pageSize);
+        List<UserEntity> list = userService.getUserList();
+//        return ResponseEntity.success(DataUtil.getPageData(list));
+        return ResponseEntity.success(list);
+    }
 }

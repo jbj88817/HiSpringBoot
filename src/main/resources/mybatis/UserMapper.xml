@@ -15,6 +15,9 @@
         SELECT *
         FROM t_user
         WHERE user_name = #{userName}
-
+    </select>
+    <select id="getUserList" resultType="us.bojie.springdemo.entity.UserEntity">
+        SELECT *
+        FROM t_user
     </select>
 </mapper>

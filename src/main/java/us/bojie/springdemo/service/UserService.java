@@ -21,4 +21,8 @@ public class UserService {
     public List<UserEntity> findUser(String userName) {
         return userMapper.findUser(userName);
     }
+
+    public List<UserEntity> getUserList() {
+        return userMapper.getUserList();
+    }
 }
