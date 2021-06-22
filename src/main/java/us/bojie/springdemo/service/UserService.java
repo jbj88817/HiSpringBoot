@@ -25,4 +25,8 @@ public class UserService {
     public List<UserEntity> getUserList() {
         return userMapper.getUserList();
     }
+
+    public void updateUser(String id, String forbid) {
+        userMapper.updateUser(id, forbid);
+    }
 }
