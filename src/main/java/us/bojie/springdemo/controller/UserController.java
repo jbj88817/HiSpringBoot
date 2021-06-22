@@ -1,5 +1,6 @@
 package us.bojie.springdemo.controller;
 
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,7 @@ import us.bojie.springdemo.config.NeedLogin;
 import us.bojie.springdemo.entity.ResponseEntity;
 import us.bojie.springdemo.entity.UserEntity;
 import us.bojie.springdemo.service.UserService;
+import us.bojie.springdemo.util.DataUtil;
 import us.bojie.springdemo.util.ResponseCode;
 import us.bojie.springdemo.util.UserRedisUtil;
 
@@ -86,10 +88,10 @@ public class UserController {
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户列表")
     public ResponseEntity getUserList(@RequestParam(value = "pageIndex", defaultValue = "1") @ApiParam("起始页码从1开始") int pageIndex
+            , @RequestParam(value = "pageSize") @ApiParam("每页显示的数量") int pageSize
     ) {
-//        PageHelper.startPage(pageIndex, pageSize);
+        PageHelper.startPage(pageIndex, pageSize);
         List<UserEntity> list = userService.getUserList();
-//        return ResponseEntity.success(DataUtil.getPageData(list));
-        return ResponseEntity.success(list);
+        return ResponseEntity.success(DataUtil.getPageData(list));
     }
 }
